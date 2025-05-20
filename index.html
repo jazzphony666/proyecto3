@@ -10,7 +10,7 @@
 <body>
     <header>
         <div class="logo-container">
-            <img src="assets/logo.png" alt="Logo del sitio" height="80">
+            <img src="assets/logo.png" alt="La Surtidora" height="80">
         </div>
         <nav>
             <ul>
@@ -23,21 +23,27 @@
                 <li><a href="tienda.html"><i class="fas fa-shopping-cart"></i> Tienda</a></li>
                 <li><a href="preguntas.html"><i class="fas fa-question-circle"></i> Preguntas Frecuentes</a></li>
                 <li><a href="contacto.html"><i class="fas fa-envelope"></i> Contáctame</a></li>
+                <li class="cart-icon">
+                    <a href="carrito.html" class="cart-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <h1>Bienvenido a nuestro sitio</h1>
+        <h1>La Surtidora</h1>
         
         <!-- Productos destacados -->
         <section class="featured-products">
             <h2>Productos Destacados</h2>
-            <div class="slide">
+            <div class="products-grid">
                 <div class="product-card">
-                    <img src="img/producto1.jpg" alt="Producto 1">
+                    <img src="assets/product1.jpg" alt="Laptop Pro X">
                     <div class="product-info">
-                        <h3>Producto 1</h3>
+                        <h3>Gel limpiador Avene</h3>
                         <div class="rating">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -46,13 +52,36 @@
                             <i class="fas fa-star-half-alt"></i>
                             <span>(4.5)</span>
                         </div>
-                        <p class="price">$99.99</p>
+                        <p class="price">$450</p>
+                        <button class="add-to-cart-btn" data-product-id="1">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
                     </div>
                 </div>
+
                 <div class="product-card">
-                    <img src="img/producto2.jpg" alt="Producto 2">
+                    <img src="assets/product2.jpg" alt="Smartphone Ultra">
                     <div class="product-info">
-                        <h3>Producto 2</h3>
+                        <h3>Desodorante natural Green Doctor</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(5.0)</span>
+                        </div>
+                        <p class="price">$83.45</p>
+                        <button class="add-to-cart-btn" data-product-id="2">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="assets/product3.jpg" alt="Smart Watch Series 5">
+                    <div class="product-info">
+                        <h3>Off crema 200ml</h3>
                         <div class="rating">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -61,7 +90,276 @@
                             <i class="far fa-star"></i>
                             <span>(4.0)</span>
                         </div>
-                        <p class="price">$149.99</p>
+                        <p class="price">$110</p>
+                        <button class="add-to-cart-btn" data-product-id="3">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="assets/product4.jpg" alt="Wireless Earbuds Pro">
+                    <div class="product-info">
+                        <h3>Folicuré Control Caspa</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.7)</span>
+                        </div>
+                        <p class="price">$74</p>
+                        <button class="add-to-cart-btn" data-product-id="4">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="assets/product5.jpg" alt="4K Smart TV">
+                    <div class="product-info">
+                        <h3>Off creama caja con 4</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(4.9)</span>
+                        </div>
+                        <p class="price">$400</p>
+                        <button class="add-to-cart-btn" data-product-id="5">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="assets/product6.jpg" alt="Gaming Console">
+                    <div class="product-info">
+                        <h3>Clorox Toalla limpiadoras Grapefruit</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.6)</span>
+                        </div>
+                        <p class="price">$60</p>
+                        <button class="add-to-cart-btn" data-product-id="6">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="assets/product7.jpg" alt="Digital Camera">
+                    <div class="product-info">
+                        <h3>Aceite de Salmón Omega 3</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(4.2)</span>
+                        </div>
+                        <p class="price">$653.50</p>
+                        <button class="add-to-cart-btn" data-product-id="7">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="assets/product8.jpg" alt="Tablet Ultra">
+                    <div class="product-info">
+                        <h3>Garrafón Ciel (Solo líquido)</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(4.8)</span>
+                        </div>
+                        <p class="price">$51</p>
+                        <button class="add-to-cart-btn" data-product-id="8">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="assets/product9.jpg" alt="Smart Speaker">
+                    <div class="product-info">
+                        <h3>Bálsamo Nivea</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(4.1)</span>
+                        </div>
+                        <p class="price">$20</p>
+                        <button class="add-to-cart-btn" data-product-id="9">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="assets/product10.jpg" alt="Wireless Router">
+                    <div class="product-info">
+                        <h3>Quinoa Mix</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.5)</span>
+                        </div>
+                        <p class="price">$80</p>
+                        <button class="add-to-cart-btn" data-product-id="10">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="assets/product11.jpg" alt="Wireless Router">
+                    <div class="product-info">
+                        <h3>Chia Mix</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.5)</span>
+                        </div>
+                        <p class="price">$70</p>
+                        <button class="add-to-cart-btn" data-product-id="11">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="assets/product12.jpg" alt="Wireless Router">
+                    <div class="product-info">
+                        <h3>Trident Caja 15</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.5)</span>
+                        </div>
+                        <p class="price">$100</p>
+                        <button class="add-to-cart-btn" data-product-id="12">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="assets/product13.jpg" alt="Wireless Router">
+                    <div class="product-info">
+                        <h3>Heinz Ketchup</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.5)</span>
+                        </div>
+                        <p class="price">$35</p>
+                        <button class="add-to-cart-btn" data-product-id="13">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="assets/product14.jpg" alt="Wireless Router">
+                    <div class="product-info">
+                        <h3>Heinz Mostaza</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.5)</span>
+                        </div>
+                        <p class="price">$42</p>
+                        <button class="add-to-cart-btn" data-product-id="14">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="assets/product15.jpg" alt="Wireless Router">
+                    <div class="product-info">
+                        <h3>Protector Solar</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.5)</span>
+                        </div>
+                        <p class="price">$320</p>
+                        <button class="add-to-cart-btn" data-product-id="15">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="assets/product16.jpg" alt="Wireless Router">
+                    <div class="product-info">
+                        <h3>Spray Neutralizador de Olores</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.5)</span>
+                        </div>
+                        <p class="price">$43</p>
+                        <button class="add-to-cart-btn" data-product-id="16">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="assets/product17.jpg" alt="Wireless Router">
+                    <div class="product-info">
+                        <h3>Exfoliante Dr Teals Rose</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.5)</span>
+                        </div>
+                        <p class="price">$226</p>
+                        <button class="add-to-cart-btn" data-product-id="17">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
                     </div>
                 </div>
             </div>
@@ -76,7 +374,7 @@
             <div class="chat-body" id="chatBody">
                 <div class="chat-messages">
                     <div class="message system">
-                        Bienvenido a nuestro chat. ¿En qué podemos ayudarte?
+                        Bienvenido. ¿En qué podemos ayudarte?
                     </div>
                 </div>
                 <div class="chat-input">
@@ -95,7 +393,7 @@
             <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
             <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
         </div>
-        <p class="copyright">&copy; 2024 Mi Sitio Web. Todos los derechos reservados.</p>
+        <p class="copyright">&copy; 2025 La Surtidora. Todos los derechos reservados.</p>
     </footer>
 
     <script src="js/scripts.js"></script>
