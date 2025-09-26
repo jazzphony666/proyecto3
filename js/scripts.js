@@ -1,13 +1,104 @@
 console.log('Sitio cargado correctamente');
 
+// JWT Authentication Functions
+const API_BASE_URL = '';
+
+// Get authentication token
+function getAuthToken() {
+    return localStorage.getItem('token');
+}
+
+// Get user data
+function getUserData() {
+    const userData = localStorage.getItem('user');
+    return userData ? JSON.parse(userData) : null;
+}
+
+// Check if user is authenticated
+function isAuthenticated() {
+    return !!getAuthToken();
+}
+
+// Logout function
+function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = 'auth.html';
+}
+
+// Make authenticated API request
+async function makeAuthenticatedRequest(url, options = {}) {
+    const token = getAuthToken();
+    
+    if (!token) {
+        throw new Error('No authentication token found');
+    }
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        ...options.headers
+    };
+
+    const response = await fetch(url, {
+        ...options,
+        headers
+    });
+
+    if (response.status === 401 || response.status === 403) {
+        // Token expired or invalid, redirect to login
+        logout();
+        return;
+    }
+
+    return response;
+}
+
+// Update navigation based on authentication status
+function updateNavigation() {
+    const userData = getUserData();
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (navMenu) {
+        // Remove existing auth buttons
+        const existingAuthButtons = navMenu.querySelectorAll('.auth-buttons');
+        existingAuthButtons.forEach(btn => btn.remove());
+        
+        if (isAuthenticated()) {
+            // Add user menu
+            const authButtons = document.createElement('li');
+            authButtons.className = 'auth-buttons';
+            authButtons.innerHTML = `
+                <div class="user-menu">
+                    <span class="user-name">Hola, ${userData.name}</span>
+                    <div class="user-dropdown">
+                        <a href="#" onclick="logout()">Cerrar Sesión</a>
+                    </div>
+                </div>
+            `;
+            navMenu.appendChild(authButtons);
+        } else {
+            // Add login/register buttons
+            const authButtons = document.createElement('li');
+            authButtons.className = 'auth-buttons';
+            authButtons.innerHTML = `
+                <a href="auth.html" class="login-btn">Iniciar Sesión</a>
+            `;
+            navMenu.appendChild(authButtons);
+        }
+    }
+}
+
 // Chat Widget Functionality
 function toggleChat() {
     const chatBody = document.getElementById('chatBody');
     chatBody.style.display = chatBody.style.display === 'none' ? 'flex' : 'none';
 }
 
-// Initialize chat
+// Initialize chat and authentication
 document.addEventListener('DOMContentLoaded', function() {
+    // Update navigation based on authentication status
+    updateNavigation();
     const chatBody = document.getElementById('chatBody');
     const chatInput = document.querySelector('.chat-input input');
     const sendButton = document.querySelector('.chat-input button');
@@ -80,38 +171,47 @@ document.addEventListener('DOMContentLoaded', function() {
 // Cart Functionality
 document.addEventListener('DOMContentLoaded', () => {
     // Get current user ID (you should implement proper user authentication)
-    const userId = 1; // Temporary hardcoded user ID
-    
     // Update cart count
     async function updateCartCount() {
         try {
-            const response = await fetch(`/api/cart/${userId}`);
-            const data = await response.json();
-            const totalItems = data.items.reduce((sum, item) => sum + item.quantity, 0);
-            document.querySelector('.cart-count').textContent = totalItems;
+            if (!isAuthenticated()) {
+                document.querySelector('.cart-count').textContent = '0';
+                return;
+            }
+
+            const response = await makeAuthenticatedRequest('/api/cart');
+            if (response) {
+                const data = await response.json();
+                const totalItems = data.items.reduce((sum, item) => sum + item.quantity, 0);
+                document.querySelector('.cart-count').textContent = totalItems;
+            }
         } catch (error) {
             console.error('Error updating cart count:', error);
+            document.querySelector('.cart-count').textContent = '0';
         }
     }
     
     // Add to cart functionality
     document.querySelectorAll('.add-to-cart-btn').forEach(button => {
         button.addEventListener('click', async (e) => {
+            if (!isAuthenticated()) {
+                alert('Debes iniciar sesión para agregar productos al carrito');
+                window.location.href = 'auth.html';
+                return;
+            }
+
             const productId = e.target.closest('.add-to-cart-btn').dataset.productId;
             
             try {
-                const response = await fetch(`/api/cart/${userId}/items`, {
+                const response = await makeAuthenticatedRequest('/api/cart/items', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
                     body: JSON.stringify({
                         product_id: productId,
                         quantity: 1
                     })
                 });
                 
-                if (response.ok) {
+                if (response && response.ok) {
                     // Show success message
                     const button = e.target.closest('.add-to-cart-btn');
                     const originalText = button.innerHTML;
@@ -150,19 +250,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalElement = document.querySelector('.total-amount');
     
     // Get current user ID (you should implement proper user authentication)
-    const userId = 1; // Temporary hardcoded user ID
-    
     // Load cart items
     async function loadCartItems() {
         try {
-            const response = await fetch(`/api/cart/${userId}`);
-            const data = await response.json();
-            
-            if (data.items.length === 0) {
+            if (!isAuthenticated()) {
                 showEmptyCart();
-            } else {
-                renderCartItems(data.items);
-                updateCartSummary();
+                return;
+            }
+
+            const response = await makeAuthenticatedRequest('/api/cart');
+            if (response) {
+                const data = await response.json();
+                
+                if (data.items.length === 0) {
+                    showEmptyCart();
+                } else {
+                    renderCartItems(data.items);
+                    updateCartSummary();
+                }
             }
         } catch (error) {
             console.error('Error loading cart:', error);
@@ -236,15 +341,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         try {
-            const response = await fetch(`/api/cart/${userId}/items/${productId}`, {
+            const response = await makeAuthenticatedRequest(`/api/cart/items/${productId}`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 body: JSON.stringify({ quantity })
             });
             
-            if (response.ok) {
+            if (response && response.ok) {
                 cartItem.querySelector('.quantity-input').value = quantity;
                 updateCartSummary();
             }
@@ -260,11 +362,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const productId = cartItem.dataset.productId;
         
         try {
-            const response = await fetch(`/api/cart/${userId}/items/${productId}`, {
+            const response = await makeAuthenticatedRequest(`/api/cart/items/${productId}`, {
                 method: 'DELETE'
             });
             
-            if (response.ok) {
+            if (response && response.ok) {
                 cartItem.remove();
                 updateCartSummary();
                 

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autenticación - La Surtidora</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <style>
+        .auth-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 30px;
+        }
+        
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background: #f5f5f5;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+        
+        .auth-tab.active {
+            background: #2c3e50;
+            color: white;
+        }
+        
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #2c3e50;
+        }
+        
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .auth-btn:hover {
+            background: #34495e;
+        }
+        
+        .auth-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .success-message {
+            color: #27ae60;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <img src="assets/logo.png" alt="La Surtidora" class="logo">
+                    <span class="logo-text">La Surtidora</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="index.html#productos">Productos</a></li>
+                    <li><a href="vision.html">Visión</a></li>
+                    <li><a href="ubicacion.html">Ubicación</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="auth-container">
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="showTab('login')">Iniciar Sesión</button>
+                <button class="auth-tab" onclick="showTab('register')">Registrarse</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form active">
+                <div class="form-group">
+                    <label for="loginEmail">Correo Electrónico:</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Contraseña:</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="auth-btn">Iniciar Sesión</button>
+                <div class="loading" id="loginLoading">Cargando...</div>
+                <div class="error-message" id="loginError"></div>
+                <div class="success-message" id="loginSuccess"></div>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form">
+                <div class="form-group">
+                    <label for="registerName">Nombre Completo:</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Correo Electrónico:</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Contraseña:</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPhone">Teléfono:</label>
+                    <input type="tel" id="registerPhone">
+                </div>
+                <div class="form-group">
+                    <label for="registerAddress">Dirección:</label>
+                    <input type="text" id="registerAddress">
+                </div>
+                <button type="submit" class="auth-btn">Registrarse</button>
+                <div class="loading" id="registerLoading">Cargando...</div>
+                <div class="error-message" id="registerError"></div>
+                <div class="success-message" id="registerSuccess"></div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // Tab switching
+        function showTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update forms
+            document.querySelectorAll('.auth-form').forEach(form => {
+                form.classList.remove('active');
+            });
+            document.getElementById(tabName + 'Form').classList.add('active');
+
+            // Clear messages
+            clearMessages();
+        }
+
+        // Clear error/success messages
+        function clearMessages() {
+            document.querySelectorAll('.error-message, .success-message').forEach(msg => {
+                msg.textContent = '';
+            });
+        }
+
+        // Show loading state
+        function showLoading(formType) {
+            document.getElementById(formType + 'Loading').style.display = 'block';
+            document.querySelector(`#${formType}Form button`).disabled = true;
+        }
+
+        // Hide loading state
+        function hideLoading(formType) {
+            document.getElementById(formType + 'Loading').style.display = 'none';
+            document.querySelector(`#${formType}Form button`).disabled = false;
+        }
+
+        // Show error message
+        function showError(formType, message) {
+            document.getElementById(formType + 'Error').textContent = message;
+        }
+
+        // Show success message
+        function showSuccess(formType, message) {
+            document.getElementById(formType + 'Success').textContent = message;
+        }
+
+        // Login form submission
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearMessages();
+            showLoading('login');
+
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Store token and user data
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    
+                    showSuccess('login', '¡Inicio de sesión exitoso!');
+                    
+                    // Redirect to home page after 1 second
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+                } else {
+                    showError('login', data.error || 'Error al iniciar sesión');
+                }
+            } catch (error) {
+                showError('login', 'Error de conexión');
+            } finally {
+                hideLoading('login');
+            }
+        });
+
+        // Register form submission
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearMessages();
+            showLoading('register');
+
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const phone = document.getElementById('registerPhone').value;
+            const address = document.getElementById('registerAddress').value;
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email, password, phone, address })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Store token and user data
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    
+                    showSuccess('register', '¡Registro exitoso!');
+                    
+                    // Redirect to home page after 1 second
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+                } else {
+                    showError('register', data.error || 'Error al registrarse');
+                }
+            } catch (error) {
+                showError('register', 'Error de conexión');
+            } finally {
+                hideLoading('register');
+            }
+        });
+
+        // Check if user is already logged in
+        window.addEventListener('load', () => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>
